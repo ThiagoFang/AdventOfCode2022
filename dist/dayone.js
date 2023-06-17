@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const elvesStorage_1 = __importDefault(require("./elvesStorage"));
 /*
 --- Day 1: Calorie Counting ---
 Santa's reindeer typically eat regular reindeer food, but they need a lot of magical energy to deliver presents on Christmas. For that, their favorite snack is a special type of star fruit that only grows deep in the jungle. The Elves have brought you on their annual expedition to the grove where the fruit grows.
@@ -15,6 +19,7 @@ The Elves take turns writing down the number of Calories contained by the variou
 For example, suppose the Elves finish writing their items' Calories and end up with the following list:
 
 */
+// --- Day 1: Calorie Counting ---
 const sampleCalorieList = `1000
 2000
 3000
@@ -29,5 +34,29 @@ const sampleCalorieList = `1000
 9000
 
 10000`;
-
-console.log(sampleCalorieList);
+const getHigher = (list) => {
+    let max = 0;
+    for (const number of list) {
+        max = number > max ? number : max;
+    }
+    return max;
+};
+const getCaloriesValues = (sample) => {
+    return sample.split("\n\n").map((line) => {
+        const calories = line.split("\n");
+        return calories.reduce((acc, curr) => {
+            return acc + Number(curr);
+        }, 0);
+    });
+};
+const sampleValues = getCaloriesValues(sampleCalorieList);
+console.log(`Max Calories from Sample: ${getHigher(sampleValues)}`);
+const inputValues = getCaloriesValues(elvesStorage_1.default);
+console.log(`Max Calories from input: ${getHigher(inputValues)}`);
+// --- Part Two ---
+const getSumOfTopThree = (sample) => {
+    const ranking = sample.sort((a, b) => b - a).slice(0, 3);
+    return ranking.reduce((acc, curr) => acc + curr);
+};
+console.log(`The sum of top three sample elves is: ${getSumOfTopThree(sampleValues)}`);
+console.log(`The sum of top three input elves is: ${getSumOfTopThree(inputValues)}`);

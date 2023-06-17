@@ -16,6 +16,7 @@ For example, suppose the Elves finish writing their items' Calories and end up w
 
 */
 
+// --- Day 1: Calorie Counting ---
 const sampleCalorieList = `1000
 2000
 3000
@@ -31,4 +32,41 @@ const sampleCalorieList = `1000
 
 10000`;
 
-console.log("Teste");
+const getHigher = (list: number[]) => {
+  let max = 0;
+  for (const number of list) {
+    max = number > max ? number : max;
+  }
+  return max;
+};
+
+const getCaloriesValues = (sample: string) => {
+  return sample.split("\n\n").map((line) => {
+    const calories = line.split("\n");
+
+    return calories.reduce((acc, curr) => {
+      return acc + Number(curr);
+    }, 0);
+  });
+};
+
+const sampleValues = getCaloriesValues(sampleCalorieList);
+console.log(`Max Calories from Sample: ${getHigher(sampleValues)}`);
+
+const inputValues = getCaloriesValues(elvesStorage);
+console.log(`Max Calories from input: ${getHigher(inputValues)}`);
+
+// --- Part Two ---
+const getSumOfTopThree = (sample: number[]) => {
+  const ranking = sample.sort((a, b) => b - a).slice(0, 3);
+
+  return ranking.reduce((acc, curr) => acc + curr);
+};
+
+console.log(
+  `The sum of top three sample elves is: ${getSumOfTopThree(sampleValues)}`
+);
+
+console.log(
+  `The sum of top three input elves is: ${getSumOfTopThree(inputValues)}`
+);
